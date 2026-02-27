@@ -1,1 +1,51 @@
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+def plot_combined_clt():
+    # 設定參數
+    n = 50          # 每次抽樣的樣本數
+    m = 50000       # 模擬次數 (Monte Carlo trials)
+    bins = 60
+    xs = np.linspace(-4, 4, 400)
+    normal_pdf = (1 / np.sqrt(2 * np.pi)) * np.exp(-0.5 * xs**2)
+
+    plt.figure(figsize=(14, 5))
+
+    # --- 1. Bernoulli(p=0.3) ---
+    p = 0.3
+    mu_b, sigma_b = p, np.sqrt(p * (1 - p))
+    # 產生資料並標準化 Z = sqrt(n) * (Xbar - mu) / sigma
+    X_b = (np.random.rand(m, n) < p).astype(float)
+    Z_b = np.sqrt(n) * (X_b.mean(axis=1) - mu_b) / sigma_b
+
+    plt.subplot(1, 2, 1)
+    plt.hist(Z_b, bins=bins, density=True, alpha=0.7, color='skyblue', edgecolor="white")
+    plt.plot(xs, normal_pdf, 'r-', linewidth=2, label='Standard Normal')
+    plt.title(f"CLT: Bernoulli (p=0.3, n={n})")
+    plt.xlabel("Z-score")
+    plt.ylabel("Density")
+    plt.legend()
+
+    # --- 2. Exponential(rate=2.0) ---
+    lam = 2.0
+    mu_e, sigma_e = 1/lam, 1/lam
+    X_e = np.random.exponential(scale=1/lam, size=(m, n))
+    Z_e = np.sqrt(n) * (X_e.mean(axis=1) - mu_e) / sigma_e
+
+    plt.subplot(1, 2, 2)
+    plt.hist(Z_e, bins=bins, density=True, alpha=0.7, color='salmon', edgecolor="white")
+    plt.plot(xs, normal_pdf, 'r-', linewidth=2, label='Standard Normal')
+    plt.title(f"CLT: Exponential (rate=2.0, n={n})")
+    plt.xlabel("Z-score")
+    plt.ylabel("Density")
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+    # 打印簡單的數值驗證
+    print(f"Bernoulli   | Empirical Mean: {Z_b.mean():.4f}, Var: {Z_b.var():.4f}")
+    print(f"Exponential | Empirical Mean: {Z_e.mean():.4f}, Var: {Z_e.var():.4f}")
+
+plot_combined_clt()
