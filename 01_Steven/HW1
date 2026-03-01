@@ -1,0 +1,33 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+def demonstrate_clt_bernoulli(p=0.6, sample_size=40, num_samples=5000):
+    """
+    p: 成功的機率
+    sample_size (n): 每次抽樣的樣本數
+    num_samples: 抽樣的次數
+    """
+    
+    # 產生隨機樣本 (k 次抽樣，每次 n 個樣本)
+    samples = np.random.binomial(n=1, p=p, size=(num_samples, sample_size))
+    
+    # 計算每一次抽樣的平均值
+    sample_means = np.mean(samples, axis=1)
+    
+    # 繪圖設定
+    plt.figure(figsize=(10, 6))
+    plt.hist(sample_means, bins=30, density=True, alpha=0.6, color='#4A90E2', label='樣本平均值分佈')
+    
+    plt.title(f'中央極限定理示範 (Bernoulli Trials, n={sample_size})', fontsize=18)
+    plt.xlabel('樣本平均值', fontsize=16)
+    plt.ylabel('頻率', fontsize=16)
+    plt.legend()
+    plt.grid(axis='y', alpha=0.3)
+    
+    print(f"樣本數 n={sample_size}，重複抽樣 {num_samples} 次。")
+    plt.show()
+
+if __name__ == "__main__":
+    # 執行函數：你可以嘗試修改 sample_size 看圖形的變化
+    demonstrate_clt_bernoulli(p=0.5, sample_size=50)
