@@ -1,0 +1,15 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 設定參數
+p = 0.3 #成功率
+sample_size = 50 #樣本數
+n_experiments = 10000 #實驗次數
+
+sample_means = [np.random.binomial(1, p, sample_size).mean() for _ in range(n_experiments)]
+
+plt.hist(sample_means, bins=30, density=True, color='lightgreen', edgecolor='black')
+plt.title(f'CLT: Bernoulli Means (n={sample_size}, p={p})')
+plt.xlabel('Sample Mean Value')
+plt.ylabel('Frequency')
+plt.show()
