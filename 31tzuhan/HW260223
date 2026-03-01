@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 設定重複實驗的次數（我們計算 10,000 次平均值）
+iterations = 10000
+# 設定每次抽樣的樣本大小（n 越大，越接近正態分布）
+sample_size = 100
+
+def run_clt_demo(dist_type):
+    means = []
+    for _ in range(iterations):
+        if dist_type == 'bernoulli':
+            # 伯努利分佈：只有 0 或 1（例如投硬幣，p=0.5）
+            data = np.random.binomial(1, 0.5, sample_size)
+        elif dist_type == 'exponential':
+            # 指數分佈：通常用來表示等待時間，形狀是極度偏斜的
+            data = np.random.exponential(scale=1.0, size=sample_size)
+        
+        means.append(np.mean(data))
+    return means
+
+# 繪圖
+plt.figure(figsize=(12, 5))
+
+# 1. 伯努利分佈的 CLT 效果
+plt.subplot(1, 2, 1)
+plt.hist(run_clt_demo('bernoulli'), bins=30, color='skyblue', edgecolor='black')
+plt.title(f"Bernoulli CLT (n={sample_size})")
+plt.xlabel("Sample Mean")
+
+# 2. 指數分佈的 CLT 效果
+plt.subplot(1, 2, 2)
+plt.hist(run_clt_demo('exponential'), bins=30, color='salmon', edgecolor='black')
+plt.title(f"Exponential CLT (n={sample_size})")
+plt.xlabel("Sample Mean")
+
+plt.tight_layout()
+plt.show()
+
