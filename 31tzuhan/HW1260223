@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def plot_clt(data_type, samples_n, bin_size=30):
+    # Generating 10,000 instances of "the mean of n samples"
+    means = []
+    for _ in range(10000):
+        if data_type == 'bernoulli':
+            data = np.random.binomial(1, 0.5, samples_n) # p=0.5
+        elif data_type == 'exponential':
+            data = np.random.exponential(1.0, samples_n)
+        means.append(np.mean(data))
+
+    plt.hist(means, bins=bin_size, color='skyblue', edgecolor='black', density=True)
+    plt.title(f"{data_type.capitalize()} CLT (n={samples_n})")
+    plt.xlabel("Sample Mean")
+
+# Visualize the magic
+plt.figure(figsize=(12, 5))
+
+# Bernoulli Example
+plt.subplot(1, 2, 1)
+plot_clt('bernoulli', 100)
+
+# Exponential Example
+plt.subplot(1, 2, 2)
+plot_clt('exponential', 100)
+
+plt.tight_layout()
+plt.show()
