@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+# 參數設定
+p = 0.3
+n = 50              # 每組樣本數
+num_sim = 10000     # 模擬次數
+
+# 產生樣本平均
+samples = np.random.binomial(1, p, (num_sim, n))
+sample_means = samples.mean(axis=1)
+
+# 標準化
+mu = p
+sigma = np.sqrt(p*(1-p))
+Z = (sample_means - mu) / (sigma/np.sqrt(n))
+
+# 畫圖
+x = np.linspace(-4, 4, 200)
+plt.hist(Z, bins=50, density=True, alpha=0.6)
+plt.plot(x, norm.pdf(x), 'r', linewidth=2)
+plt.title("CLT - Bernoulli Distribution")
+plt.show()
