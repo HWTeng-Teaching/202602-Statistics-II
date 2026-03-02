@@ -1,1 +1,55 @@
 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Simulation parameters
+n_samples = 1000      # Sample size (n)
+n_simulations = 10000 # Number of iterations (N)
+
+# 1. Bernoulli Distribution (p=0.5)
+# Theoretical: mu = p, sigma = sqrt(p*(1-p))
+p = 0.5
+bernoulli_samples = np.random.binomial(1, p, (n_simulations, n_samples))
+bernoulli_means = np.mean(bernoulli_samples, axis=1)
+
+# 2. Exponential Distribution (lambda=0.5)
+# Theoretical: mu = 1/lambda, sigma = 1/lambda
+scale = 2.0  # scale = 1/lambda
+exponential_samples = np.random.exponential(scale, (n_simulations, n_samples))
+exponential_means = np.mean(exponential_samples, axis=1)
+
+# Visualization
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+# Bernoulli CLT Plot
+axes[0].hist(bernoulli_means, bins=50, color='skyblue', edgecolor='black', density=True)
+axes[0].set_title(f'CLT - Bernoulli Distribution (p={p}, n={n_samples})')
+axes[0].set_xlabel('Sample Mean')
+axes[0].set_ylabel('Density')
+
+# Theoretical Normal Overlay for Bernoulli
+mu_b = p
+sigma_b = np.sqrt(p * (1 - p) / n_samples)
+x_b = np.linspace(mu_b - 4*sigma_b, mu_b + 4*sigma_b, 100)
+axes[0].plot(x_b, 1/(sigma_b * np.sqrt(2 * np.pi)) * np.exp(-(x_b - mu_b)**2 / (2 * sigma_b**2)), 
+             color='red', lw=2, label='Normal Curve')
+axes[0].legend()
+
+# Exponential CLT Plot
+axes[1].hist(exponential_means, bins=50, color='lightgreen', edgecolor='black', density=True)
+axes[1].set_title(f'CLT - Exponential Distribution ($\lambda$={1/scale}, n={n_samples})')
+axes[1].set_xlabel('Sample Mean')
+axes[1].set_ylabel('Density')
+
+# Theoretical Normal Overlay for Exponential
+mu_e = scale
+sigma_e = scale / np.sqrt(n_samples)
+x_e = np.linspace(mu_e - 4*sigma_e, mu_e + 4*sigma_e, 100)
+axes[1].plot(x_e, 1/(sigma_e * np.sqrt(2 * np.pi)) * np.exp(-(x_e - mu_e)**2 / (2 * sigma_e**2)), 
+             color='red', lw=2, label='Normal Curve')
+axes[1].legend()
+
+plt.tight_layout()
+plt.show()
+
