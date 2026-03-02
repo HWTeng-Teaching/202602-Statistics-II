@@ -10,7 +10,7 @@ np.random.seed(0)
 M = 20000
 n_list = [1, 2, 5, 10, 30, 50, 100]
 
-# ===== 選一個母體分佈 =====
+# 
 # 例1：Exponential(λ=1)
 dist_name = "Exponential(λ=1)"
 mu = 1.0
@@ -18,7 +18,7 @@ sigma = 1.0
 def sample_X(size):
     return np.random.exponential(scale=1.0, size=size)
 
-# # 例2：Bernoulli(p=0.2)（如果你要換成這個，把上面那段註解，換成下面）
+# # 例2：Bernoulli(p=0.2)
 # dist_name = "Bernoulli(p=0.2)"
 # p = 0.2
 # mu = p
