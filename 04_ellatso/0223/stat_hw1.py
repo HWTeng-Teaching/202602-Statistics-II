@@ -48,4 +48,5 @@ for col, n in enumerate(SAMPLE_SIZES):
 plt.tight_layout()
 plt.savefig(r"C:\Users\ella.tso\Downloads\clt_demo.png", dpi=150, bbox_inches="tight")
 plt.show()
+
 print("Saved → clt_demo.png")
